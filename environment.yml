@@ -1,0 +1,19 @@
+name: ml
+channels:
+- defaults
+- conda-forge
+- bioconda
+dependencies:
+- python
+- numpy
+- pandas
+- pip
+- sqlite
+- tqdm
+- tree
+- pyarrow
+- torch
+- torchvision
+- transformers
+- evaluate
+- datasets
