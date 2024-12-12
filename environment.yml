@@ -4,7 +4,7 @@ channels:
 - conda-forge
 - bioconda
 dependencies:
-- python
+- python=3.11.5
 - numpy
 - pandas
 - pip
@@ -12,7 +12,11 @@ dependencies:
 - tqdm
 - tree
 - pyarrow
-- torch
+- pytorch-gpu
+- pytorch::pytorch-cuda
+- accelerate
+- scikit-learn=1.5.0
+- huggingface_hub
 - torchvision
 - transformers
 - evaluate

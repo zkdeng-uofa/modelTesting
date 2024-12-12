@@ -506,6 +506,7 @@ def main():
 
     # Device setup
     device = torch.device("cuda" if torch.cuda.is_available() else "mps")
+    print(device)
     config = ConvNextConfig(num_labels=5, depths=[3, 3, 9, 3])
     model = ConvNextForImageClassification(config)
     model.to(device)
@@ -525,7 +526,7 @@ def main():
     training_args = TrainingArguments(
         output_dir="convnext-checkpoints",
         remove_unused_columns=False,
-        evaluation_strategy="epoch",
+        eval_strategy="epoch",
         save_strategy="epoch",
         learning_rate=5e-4,
         per_device_train_batch_size=8,

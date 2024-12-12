@@ -1,0 +1,44 @@
+/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/torchvision/io/image.py:13: UserWarning: Failed to load image Python extension: '/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/torchvision/image.so: undefined symbol: _ZN3c1017RegisterOperatorsD1Ev'If you don't plan on using image functionality from `torchvision.io`, you can ignore this warning. Otherwise, there might be something wrong with your environment. Did you have `libjpeg` or `libpng` installed before building `torchvision` from source?
+  warn(
+/home/exouser/Work/modelTesting/models/convnext.py:507: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  pretrained_weights = torch.load(pretrained_weights_path, map_location="cpu")
+  0%|          | 0/12 [00:00<?, ?it/s]Could not estimate the number of tokens of the input, floating-point operations will not be computed
+  8%|▊         | 1/12 [00:01<00:12,  1.10s/it] 17%|█▋        | 2/12 [00:01<00:06,  1.48it/s] 25%|██▌       | 3/12 [00:01<00:04,  1.87it/s] 33%|███▎      | 4/12 [00:02<00:03,  2.23it/s] 42%|████▏     | 5/12 [00:02<00:02,  2.48it/s] 50%|█████     | 6/12 [00:02<00:02,  2.62it/s] 58%|█████▊    | 7/12 [00:03<00:01,  2.75it/s] 67%|██████▋   | 8/12 [00:03<00:01,  2.85it/s] 75%|███████▌  | 9/12 [00:03<00:01,  2.90it/s] 83%|████████▎ | 10/12 [00:04<00:00,  2.63it/s]                                                83%|████████▎ | 10/12 [00:04<00:00,  2.63it/s] 92%|█████████▏| 11/12 [00:04<00:00,  2.60it/s]100%|██████████| 12/12 [00:05<00:00,  2.55it/s]
+  0%|          | 0/7 [00:00<?, ?it/s][A
+ 29%|██▊       | 2/7 [00:00<00:00, 14.50it/s][A
+ 57%|█████▋    | 4/7 [00:00<00:00, 11.29it/s][A
+100%|██████████| 7/7 [00:00<00:00, 17.06it/s][ATraceback (most recent call last):
+  File "/home/exouser/Work/modelTesting/models/convnext.py", line 557, in <module>
+    main()
+  File "/home/exouser/Work/modelTesting/models/convnext.py", line 554, in main
+    trainer.train()
+  File "/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/transformers/trainer.py", line 1938, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/transformers/trainer.py", line 2376, in _inner_training_loop
+    self._maybe_log_save_evaluate(tr_loss, grad_norm, model, trial, epoch, ignore_keys_for_eval)
+  File "/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/transformers/trainer.py", line 2804, in _maybe_log_save_evaluate
+    metrics = self._evaluate(trial, ignore_keys_for_eval)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/transformers/trainer.py", line 2761, in _evaluate
+    metrics = self.evaluate(ignore_keys=ignore_keys_for_eval)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/transformers/trainer.py", line 3666, in evaluate
+    output = eval_loop(
+             ^^^^^^^^^^
+  File "/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/transformers/trainer.py", line 3956, in evaluation_loop
+    metrics = self.compute_metrics(EvalPrediction(predictions=all_preds, label_ids=all_labels))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exouser/Work/modelTesting/models/convnext.py", line 32, in compute_metrics
+    f1_result = metric_f1.compute(predictions=predictions, references=labels, average="macro")["f1"]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exouser/micromamba/envs/mltest/lib/python3.11/site-packages/evaluate/module.py", line 444, in compute
+    output = self._compute(**inputs, **compute_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/exouser/.cache/huggingface/modules/evaluate_modules/metrics/evaluate-metric--f1/0ca73f6cf92ef5a268320c697f7b940d1030f8471714bffdb6856c641b818974/f1.py", line 130, in _compute
+    return {"f1": float(score) if score.size == 1 else score}
+                                  ^^^^^^^^^^
+AttributeError: 'float' object has no attribute 'size'
+100%|██████████| 12/12 [00:07<00:00,  1.71it/s]
+
+                                             [A
