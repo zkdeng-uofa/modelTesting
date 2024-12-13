@@ -5,9 +5,16 @@ from datasets import load_dataset
 from transformers import set_seed, TrainingArguments, Trainer, AutoImageProcessor
 from transformers.utils import logging
 
-from utility.utils import collate_fn, compute_metrics, split_to_train_val_test, ImagePreprocessor
 from models.convnext import ConvNextConfig, ConvNextForImageClassification
 from utility.loss_functions import cross_entropy, seesaw_loss
+from utility.utils import (
+    collate_fn, 
+    compute_metrics, 
+    split_to_train_val_test,
+    parse_HF_args, 
+    ScriptTrainingArguments,
+    ImagePreprocessor
+)
 
 class CustomTrainer(Trainer):
     def compute_loss(self, model, inputs, return_outputs=False):
@@ -43,13 +50,13 @@ class CustomTrainer(Trainer):
 
 
 # Main function
-def main():
+def main(script_args):
     set_seed(42)
-    logger = logging.get_logger(__name__)
 
     # Load dataset
-    dataset = load_dataset("zkdeng/spiderTraining5-100")
-    image_processor = AutoImageProcessor.from_pretrained("facebook/convnext-tiny-224")
+    dataset = load_dataset(script_args.dataset)
+    model_name = script_args.model
+    image_processor = AutoImageProcessor.from_pretrained(model_name)
 
     # Preprocessing
     image_preprocessor = ImagePreprocessor(dataset, image_processor)
@@ -64,7 +71,12 @@ def main():
     pretrained_weights = torch.load(pretrained_weights_path, map_location="cpu")
 
     # Device setup
-    device = torch.device("cuda" if torch.cuda.is_available() else "mps")
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
     print(device)
     config = ConvNextConfig(num_labels=5, depths=[3, 3, 9, 3])
     model = ConvNextForImageClassification(config)
@@ -87,11 +99,11 @@ def main():
         remove_unused_columns=False,
         evaluation_strategy="epoch",
         save_strategy="epoch",
-        learning_rate=5e-4,
-        per_device_train_batch_size=8,
+        learning_rate=script_args.learning_rate,
+        per_device_train_batch_size=script_args.batch_size,
         gradient_accumulation_steps=4,
-        per_device_eval_batch_size=8,
-        num_train_epochs=1,
+        per_device_eval_batch_size=script_args.batch_size,
+        num_train_epochs=script_args.num_train_epochs,
         warmup_ratio=0.1,
         logging_steps=10,
         load_best_model_at_end=True,
@@ -109,7 +121,7 @@ def main():
     )
 
     train_results = trainer.train()
-    #trainer.save_model()
+    trainer.save_model()
     trainer.log_metrics("train", train_results.metrics)
     trainer.save_metrics("train", train_results.metrics)
     trainer.save_state()
@@ -130,4 +142,7 @@ def main():
     trainer.save_metrics("eval", metrics)
 
 if __name__ == "__main__":
-    main()
+    set_seed(42)
+    logger = logging.get_logger(__name__)
+    args = parse_HF_args()  # **Updated to use JSON-based arguments**
+    main(args)

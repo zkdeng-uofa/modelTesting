@@ -1,7 +1,11 @@
 import torch
+import argparse
+import json
 import numpy as np
 import torchvision.transforms as transforms
 from evaluate import load
+from dataclasses import dataclass, field
+from transformers import HfArgumentParser
 
 
 def collate_fn(examples):
@@ -30,6 +34,48 @@ def split_to_train_val_test(dataset):
     test_ds = split2["test"]
     return train_ds, val_ds, test_ds
 
+def parse_HF_args():
+    """
+    Parse hugging face arguments from a JSON file
+    """
+    # **Added argparse to handle the JSON file path as a command line argument**
+    parser = argparse.ArgumentParser(description="Run Hugging Face model with JSON config")
+    parser.add_argument("--config", type=str, required=True, help="Path to the config JSON file")
+    args = parser.parse_args()
+
+    # **Load the JSON file specified by the command line argument**
+    with open(args.config, 'r') as f:
+        json_args = json.load(f)
+    
+    hf_parser = HfArgumentParser(ScriptTrainingArguments)
+    script_args = hf_parser.parse_dict(json_args)
+    return script_args[0]  # **Returns the parsed arguments**
+
+@dataclass
+class ScriptTrainingArguments:
+    """
+    Arguments pertaining to this script
+    """
+    dataset: str = field(
+        default=None,
+        metadata={"help": "Name of dataset from HG hub"}
+    )
+    model: str = field(
+        default=None,
+        metadata={"help": "Name of model from HG hub"}
+    )
+    learning_rate: float = field(  # **Added learning_rate to the dataclass**
+        default=5e-5,
+        metadata={"help": "Learning rate for training"}
+    )
+    num_train_epochs: int = field(  # **Added num_train_epochs to the dataclass**
+        default=5,
+        metadata={"help": "Number of training epochs"}
+    )
+    batch_size: int = field(
+        default=16,
+        metadata={"help": "Batch size of training epochs"}
+    )
 
 # Image Preprocessor for data augmentation
 class ImagePreprocessor():
