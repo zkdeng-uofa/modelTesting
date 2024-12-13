@@ -1,0 +1,44 @@
+{
+  "os":  "macOS-14.6.1-arm64-arm-64bit",
+  "python":  "CPython 3.11.0",
+  "startedAt":  "2024-12-12T23:32:53.216177Z",
+  "program":  "/Users/zideng/Work/modelTesting/runs/convnext_finetune.py",
+  "codePath":  "runs/convnext_finetune.py",
+  "git":  {
+    "remote":  "https://github.com/zkdeng-uofa/modelTesting",
+    "commit":  "b7c30a0ba7dc9b21116cb0bbf9ccadd648888bc7"
+  },
+  "email":  "zkdeng@arizona.edu",
+  "root":  "/Users/zideng/Work/modelTesting",
+  "host":  "MacBook-Pro-4.local",
+  "username":  "zideng",
+  "executable":  "/Users/zideng/mamba/envs/ml/bin/python",
+  "codePathLocal":  "runs/convnext_finetune.py",
+  "cpu_count":  10,
+  "cpu_count_logical":  10,
+  "disk":  {
+    "/":  {
+      "total":  "994662584320",
+      "used":  "828394520576"
+    },
+    "/System/Volumes/Data":  {
+      "total":  "994662584320",
+      "used":  "828394520576"
+    }
+  },
+  "memory":  {
+    "total":  "34359738368"
+  },
+  "cpu":  {
+    "count":  10,
+    "countLogical":  10
+  },
+  "apple":  {
+    "name":  "Apple M1 Max",
+    "ecpuCores":  2,
+    "pcpuCores":  8,
+    "gpuCores":  32,
+    "memoryGb":  32,
+    "ramTotalBytes":  "34359738368"
+  }
+}

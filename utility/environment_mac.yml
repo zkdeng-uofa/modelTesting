@@ -1,0 +1,24 @@
+name: ml
+channels:
+- defaults
+- conda-forge
+- bioconda
+dependencies:
+- python=3.11.5
+- numpy
+- pandas
+- pip
+- sqlite
+- tqdm
+- tree
+- pyarrow
+- pytorch-gpu
+- pytorch
+- accelerate
+- scikit-learn
+- huggingface_hub
+- torchvision
+- transformers
+- evaluate
+- datasets
+- wandb
