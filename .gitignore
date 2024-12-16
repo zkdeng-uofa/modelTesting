@@ -166,3 +166,4 @@ models/convnext-checkpoints/
 convnext-checkpoints/
 weights/
 wandb/
+checkpoints/

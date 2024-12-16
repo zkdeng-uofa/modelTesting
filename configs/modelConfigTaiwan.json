@@ -1,0 +1,8 @@
+{
+    "dataset": "zkdeng/taiwanSpiders1000",
+    "model": "facebook/convnext-tiny-224",
+    "learning_rate": 5e-4,
+    "num_train_epochs":5,
+    "batch_size":32,
+    "num_labels": 40
+}

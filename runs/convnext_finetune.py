@@ -78,7 +78,7 @@ def main(script_args):
     else:
         device = torch.device("cpu")
     print(device)
-    config = ConvNextConfig(num_labels=5, depths=[3, 3, 9, 3])
+    config = ConvNextConfig(num_labels=script_args.num_labels, depths=[3, 3, 9, 3])
     model = ConvNextForImageClassification(config)
     model.to(device)
 
@@ -95,7 +95,7 @@ def main(script_args):
     print("Pretrained weights loaded successfully!")
 
     training_args = TrainingArguments(
-        output_dir="convnext-checkpoints",
+        output_dir="convnext-checkpoints2",
         remove_unused_columns=False,
         evaluation_strategy="epoch",
         save_strategy="epoch",

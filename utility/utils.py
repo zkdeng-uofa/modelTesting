@@ -76,6 +76,10 @@ class ScriptTrainingArguments:
         default=16,
         metadata={"help": "Batch size of training epochs"}
     )
+    num_labels: int = field(
+        default=5,
+        metadata={"help": "Number of training labels"}
+    )
 
 # Image Preprocessor for data augmentation
 class ImagePreprocessor():
