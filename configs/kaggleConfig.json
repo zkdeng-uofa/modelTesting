@@ -4,7 +4,7 @@
     "dataset_host": "kaggle",
     "model": "facebook/convnext-tiny-224",
     "learning_rate": 5e-4,
-    "num_train_epochs":1,
+    "num_train_epochs":10,
     "batch_size":16,
     "num_labels": 2,
     "wandb": "True",

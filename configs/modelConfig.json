@@ -4,11 +4,11 @@
     "model": "facebook/convnext-tiny-224",
     "learning_rate": 5e-4,
     "num_train_epochs":1,
-    "batch_size":8,
+    "batch_size":16,
     "num_labels": 5,
     "wandb": "True",
     "push_to_hub": "False",
     "output_dir": "convnext",
-    "loss_function": "cross_entropy",
+    "loss_function": "cross_entropy"
 
 }

@@ -131,7 +131,7 @@ def main(script_args):
             logging_steps=10,
             load_best_model_at_end=True,
             metric_for_best_model="accuracy",
-            push_to_hub=script_args.push_to_hub,
+            push_to_hub=(script_args.push_to_hub=="True"),
             report_to="wandb",
         )
     else:
@@ -149,7 +149,7 @@ def main(script_args):
             logging_steps=10,
             load_best_model_at_end=True,
             metric_for_best_model="accuracy",
-            push_to_hub=script_args.push_to_hub,
+            push_to_hub=(script_args.push_to_hub=="True"),
         )
 
     trainer = CustomTrainer(
