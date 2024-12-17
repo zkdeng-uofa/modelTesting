@@ -1,6 +1,5 @@
 {
-    "dataset": "zkdeng/spiderTraining5-100",
-    "dataset_host": "huggingface",
+    "dataset": "julien-c/impressionists",
     "model": "facebook/convnext-tiny-224",
     "learning_rate": 5e-4,
     "num_train_epochs":1,
@@ -8,7 +7,6 @@
     "num_labels": 5,
     "wandb": "True",
     "push_to_hub": "False",
-    "output_dir": "convnext",
-    "loss_function": "cross_entropy",
+    "output_dir": "seesaw"
 
 }

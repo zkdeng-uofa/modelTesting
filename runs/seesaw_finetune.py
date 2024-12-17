@@ -118,7 +118,7 @@ def main(script_args):
 
     if script_args.wandb == "True":
         training_args = TrainingArguments(
-            output_dir=f"checkpoints/{script_args.output_dir}",
+            output_dir=script_args.output_dir,
             remove_unused_columns=False,
             evaluation_strategy="epoch",
             save_strategy="epoch",
@@ -136,7 +136,7 @@ def main(script_args):
         )
     else:
         training_args = TrainingArguments(
-            output_dir=f"checkpoints/{script_args.output_dir}",
+            output_dir=script_args.output_dir,
             remove_unused_columns=False,
             evaluation_strategy="epoch",
             save_strategy="epoch",

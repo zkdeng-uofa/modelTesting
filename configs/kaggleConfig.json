@@ -1,0 +1,14 @@
+{
+    "dataset": "navoneel/brain-mri-images-for-brain-tumor-detection",
+    "local_dataset_name": "brain_tumor_dataset",
+    "dataset_host": "kaggle",
+    "model": "facebook/convnext-tiny-224",
+    "learning_rate": 5e-4,
+    "num_train_epochs":1,
+    "batch_size":16,
+    "num_labels": 2,
+    "wandb": "True",
+    "push_to_hub": "False",
+    "output_dir": "convnext",
+    "loss_function": "cross_entropy"
+}
