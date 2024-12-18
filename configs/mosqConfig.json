@@ -1,0 +1,14 @@
+{
+    "dataset": "zkdeng/top10mosq-300",
+    "dataset_host": "huggingface",
+    "model": "facebook/convnext-tiny-224",
+    "learning_rate": 5e-4,
+    "num_train_epochs":1,
+    "batch_size":16,
+    "num_labels": 10,
+    "wandb": "True",
+    "push_to_hub": "False",
+    "output_dir": "mosq",
+    "loss_function": "cross_entropy"
+
+}
