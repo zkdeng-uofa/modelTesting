@@ -1,0 +1,36 @@
+Dataset({
+    features: ['image', 'label'],
+    num_rows: 848
+})
+cuda
+Missing keys: ['classifier.weight', 'classifier.bias']
+Pretrained weights loaded successfully!
+{'loss': 3.5659, 'grad_norm': 2.787173271179199, 'learning_rate': 0.00047413793103448276, 'epoch': 0.75}
+{'eval_loss': 2.2651262283325195, 'eval_accuracy': 0.3867924528301887, 'eval_f1': 0.3656474897651368, 'eval_runtime': 1.1848, 'eval_samples_per_second': 89.463, 'eval_steps_per_second': 5.908, 'epoch': 0.98}
+{'loss': 2.1848, 'grad_norm': 2.5123157501220703, 'learning_rate': 0.0003879310344827586, 'epoch': 1.51}
+{'eval_loss': 1.329301118850708, 'eval_accuracy': 0.8113207547169812, 'eval_f1': 0.7925042480440245, 'eval_runtime': 1.1089, 'eval_samples_per_second': 95.59, 'eval_steps_per_second': 6.313, 'epoch': 1.96}
+{'loss': 1.4997, 'grad_norm': 2.259153366088867, 'learning_rate': 0.0003017241379310345, 'epoch': 2.26}
+{'eval_loss': 0.7508047819137573, 'eval_accuracy': 0.8490566037735849, 'eval_f1': 0.8208428413691571, 'eval_runtime': 1.1297, 'eval_samples_per_second': 93.827, 'eval_steps_per_second': 6.196, 'epoch': 2.94}
+{'loss': 0.9103, 'grad_norm': 2.7087242603302, 'learning_rate': 0.00021551724137931034, 'epoch': 3.02}
+{'loss': 0.6004, 'grad_norm': 3.4674198627471924, 'learning_rate': 0.0001293103448275862, 'epoch': 3.77}
+{'eval_loss': 0.44766658544540405, 'eval_accuracy': 0.9056603773584906, 'eval_f1': 0.8937844611528822, 'eval_runtime': 1.18, 'eval_samples_per_second': 89.833, 'eval_steps_per_second': 5.932, 'epoch': 4.0}
+{'loss': 0.4315, 'grad_norm': 3.3313729763031006, 'learning_rate': 4.310344827586207e-05, 'epoch': 4.53}
+{'eval_loss': 0.388729989528656, 'eval_accuracy': 0.9245283018867925, 'eval_f1': 0.9128082443871918, 'eval_runtime': 1.3322, 'eval_samples_per_second': 79.567, 'eval_steps_per_second': 5.254, 'epoch': 4.91}
+{'train_runtime': 61.5304, 'train_samples_per_second': 68.909, 'train_steps_per_second': 1.056, 'train_loss': 1.4399957730219914, 'epoch': 4.91}
+***** train metrics *****
+  epoch                    =     4.9057
+  total_flos               =        0GF
+  train_loss               =       1.44
+  train_runtime            = 0:01:01.53
+  train_samples_per_second =     68.909
+  train_steps_per_second   =      1.056
+***** eval metrics *****
+  eval_accuracy               =     0.9717
+  eval_f1                     =     0.9695
+  eval_loss                   =      0.341
+  eval_model_preparation_time =     0.0019
+  eval_runtime                = 0:00:01.22
+  eval_samples_per_second     =     86.685
+  eval_steps_per_second       =      5.724
+[1;34mwandb[0m: 🚀 View run [33mmosq[0m at: [34mhttps://wandb.ai/zkdeng-university-of-arizona/convnext/runs/hzmmpmfa[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20241219_202726-hzmmpmfa/logs[0m
