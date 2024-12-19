@@ -10,6 +10,9 @@ from dataclasses import dataclass, field
 from transformers import HfArgumentParser, AutoImageProcessor
 from datasets import load_dataset
 
+from collections import Counter
+from datasets import Dataset
+import random
 
 def collate_fn(images):
     pixel_values = torch.stack([image["pixel_values"] for image in images])
@@ -30,7 +33,7 @@ def compute_metrics(eval_pred):
 
 # Split dataset into train, validation, and test
 def split_to_train_val_test(dataset):
-    split1 = dataset["train"].train_test_split(test_size=0.2)
+    split1 = dataset.train_test_split(test_size=0.2)
     train_ds = split1["train"]
     split2 = split1["test"].train_test_split(test_size=0.5)
     val_ds = split2["train"]
@@ -118,7 +121,7 @@ def preprocess_hf_dataset(dataset_name, model_name):
     # Preprocessing
     image_preprocessor = ImagePreprocessor(dataset, image_processor)
 
-    train_ds, val_ds, test_ds = split_to_train_val_test(dataset)
+    train_ds, val_ds, test_ds = split_to_train_val_test(dataset['train'])
     train_ds.set_transform(image_preprocessor.preprocess_train)
     val_ds.set_transform(image_preprocessor.preprocess_val)
     test_ds.set_transform(image_preprocessor.preprocess_test)
@@ -140,7 +143,38 @@ def preprocess_kg_dataset(cloud_dataset_name, local_dataset_name, model_name):
 
     
 
-    train_ds, val_ds, test_ds = split_to_train_val_test(dataset)
+    train_ds, val_ds, test_ds = split_to_train_val_test(dataset['train'])
+    train_ds.set_transform(image_preprocessor.preprocess_train)
+    val_ds.set_transform(image_preprocessor.preprocess_val)
+    test_ds.set_transform(image_preprocessor.preprocess_test)
+
+    return train_ds, val_ds, test_ds
+
+
+def preprocess_hf_ros_dataset(dataset_name, model_name):
+    """
+    Preprocess the Hugging Face dataset with the specified model 
+    """
+    dataset = load_dataset(dataset_name)
+
+    image_processor = AutoImageProcessor.from_pretrained(model_name)
+    # Preprocessing
+    image_preprocessor = ImagePreprocessor(dataset, image_processor)
+
+    class_counts = Counter(dataset["train"]["label"])
+    max_count = max(class_counts.values())
+
+    oversampled_data = []
+
+    for label, count in class_counts.items():
+        class_samples = [example for example in dataset["train"] if example["label"] == label]
+        num_to_add = max_count - count
+        oversampled_class_samples = class_samples + random.choices(class_samples, k=num_to_add)
+        oversampled_data.extend(oversampled_class_samples)
+
+    oversampled_dataset = Dataset.from_dict({key: [d[key] for d in oversampled_data] for key in oversampled_data[0]})
+
+    train_ds, val_ds, test_ds = split_to_train_val_test(oversampled_dataset)
     train_ds.set_transform(image_preprocessor.preprocess_train)
     val_ds.set_transform(image_preprocessor.preprocess_val)
     test_ds.set_transform(image_preprocessor.preprocess_test)
