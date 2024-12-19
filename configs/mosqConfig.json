@@ -3,7 +3,7 @@
     "dataset_host": "huggingface",
     "model": "facebook/convnext-tiny-224",
     "learning_rate": 5e-4,
-    "num_train_epochs":10,
+    "num_train_epochs":5,
     "batch_size":16,
     "num_labels": 10,
     "wandb": "True",
