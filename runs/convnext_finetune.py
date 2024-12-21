@@ -6,12 +6,20 @@ from datasets import load_dataset
 from transformers import set_seed, TrainingArguments, Trainer, AutoImageProcessor
 from transformers.utils import logging
 
+import sys
+
+# Add the parent directory of 'models' to sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.abspath(os.path.join(current_dir, "../"))
+sys.path.insert(0, parent_dir)
+
+# Import from models
 from models.convnext import ConvNextConfig, ConvNextForImageClassification
 from utility.loss_functions import seesaw_loss, LossFunctions
 from utility.utils import (
-    collate_fn, 
-    compute_metrics, 
-    parse_HF_args, 
+    collate_fn,
+    compute_metrics,
+    parse_HF_args,
     preprocess_hf_dataset,
     preprocess_kg_dataset
 )
@@ -82,8 +90,8 @@ def main(script_args):
         train_ds, val_ds, test_ds = preprocess_hf_dataset(script_args.dataset, script_args.model)
     elif script_args.dataset_host == "kaggle":
         train_ds, val_ds, test_ds = preprocess_kg_dataset(
-            script_args.dataset, 
-            script_args.local_dataset_name, 
+            script_args.dataset,
+            script_args.local_dataset_name,
             script_args.model
         )
     # Pretrained weights
