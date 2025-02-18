@@ -1,14 +1,14 @@
 {
-    "dataset": "zkdeng/spiderTraining5-100",
+    "dataset": "zkdeng/mushroom_50",
     "dataset_host": "huggingface",
     "model": "facebook/convnext-tiny-224",
     "learning_rate": 5e-4,
     "num_train_epochs":3,
     "batch_size":16,
-    "num_labels": 5,
+    "num_labels": 43,
     "wandb": "True",
     "push_to_hub": "False",
     "output_dir": "convnext",
-    "loss_function": "cost_matrix_cross_entropy"
+    "loss_function": "cross_entropy"
 
 }

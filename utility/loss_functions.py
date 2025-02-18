@@ -4,14 +4,6 @@ class LossFunctions():
     def __init__(self):
         pass
 
-    def loss_function(self, loss_name):
-        if loss_name == "cross_entropy":
-            return cross_entropy
-        elif loss_name == "seesaw":
-            return seesaw_loss
-        else:
-            raise ValueError(f"Invalid loss function: {loss_name}")
-
     def cross_entropy(logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         """
         Computes the cross-entropy loss from scratch.
@@ -35,6 +27,51 @@ class LossFunctions():
 
         # Compute the mean loss
         loss = log_probs.mean()
+        return loss
+    
+    def cost_matrix_cross_entropy(logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        """
+        Computes the cross-entropy loss from scratch.
+
+        Args:
+            logits (torch.Tensor): Logits predicted by the model (batch_size, num_classes).
+            targets (torch.Tensor): Ground truth labels (batch_size).
+
+        Returns:
+            torch.Tensor: Computed scalar loss value.
+        """
+        device = logits.device
+        # Convert logits to probabilities using softmax
+        probs = torch.softmax(logits, dim=-1)
+
+        # Select the predicted probabilities corresponding to the target class
+        batch_size, num_classes = logits.shape
+
+        one_hot_targets = torch.nn.functional.one_hot(targets, num_classes=num_classes).float()
+
+        log_probs = torch.log(probs + 1e-9)
+        cost_matrix = torch.tensor([
+            [1.0, 5.0, 2.0, 3.0, 4.0],  # Class 0 misclassification costs
+            [4.0, 1.0, 3.0, 2.0, 5.0],  # Class 1
+            [2.0, 3.0, 1.0, 5.0, 4.0],  # Class 2
+            [3.0, 2.0, 5.0, 1.0, 4.0],  # Class 3
+            [4.0, 5.0, 2.0, 3.0, 1.0],  # Class 4
+        ], dtype=torch.float32, device=device)
+
+        print(type(cost_matrix))
+        print(type(targets))
+        targets = targets.to(device)
+        #cost_matrix = cost_matrix.to(logits.device)
+        cost_weights = cost_matrix[targets]
+        # cost_matrix.to(torch.device("mps"))
+        # cost_weights.to(torch.device("mps"))
+
+        weighted_log_probs = cost_weights * log_probs 
+
+        # Take the log of the probabilities
+        loss = -torch.sum(one_hot_targets * weighted_log_probs, dim=-1).mean()
+    
+        # Compute the mean loss
         return loss
 
     def seesaw_loss(
@@ -87,6 +124,16 @@ class LossFunctions():
             return loss.sum()
         else:
             return loss
+        
+    def loss_function(self, loss_name):
+        if loss_name == "cross_entropy":
+            return cross_entropy
+        elif loss_name == "seesaw":
+            return seesaw_loss
+        elif loss_name == "cost_matrix_cross_entropy":
+            return cost_matrix_cross_entropy
+        else:
+            raise ValueError(f"Invalid loss function: {loss_name}")
 
 
     
@@ -164,4 +211,52 @@ def seesaw_loss(
     elif reduction == "sum":
         return loss.sum()
     else:
+        return loss
+    
+def cost_matrix_cross_entropy(logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        """
+        Computes the cross-entropy loss from scratch.
+
+        Args:
+            logits (torch.Tensor): Logits predicted by the model (batch_size, num_classes).
+            targets (torch.Tensor): Ground truth labels (batch_size).
+
+        Returns:
+            torch.Tensor: Computed scalar loss value.
+        """
+        # Convert logits to probabilities using softmax
+        device = logits.device
+        probs = torch.softmax(logits, dim=-1)
+
+        # Select the predicted probabilities corresponding to the target class
+        batch_size, num_classes = logits.shape
+
+        one_hot_targets = torch.nn.functional.one_hot(targets, num_classes=num_classes).float()
+
+        log_probs = torch.log(probs + 1e-9)
+        cost_matrix = torch.tensor([
+            [1.0, 5.0, 2.0, 3.0, 4.0],  # Class 0 misclassification costs
+            [4.0, 1.0, 3.0, 2.0, 5.0],  # Class 1
+            [2.0, 3.0, 1.0, 5.0, 4.0],  # Class 2
+            [3.0, 2.0, 5.0, 1.0, 4.0],  # Class 3
+            [4.0, 5.0, 2.0, 3.0, 1.0],  # Class 4
+        ], dtype=torch.float32, device=device)
+
+        cost_matrix = torch.tensor([
+            [1.0, 5.0, 5.0, 5.0, 5.0],  # Class 0 misclassification costs
+            [5.0, 1.0, 5.0, 5.0, 5.0],  # Class 1
+            [5.0, 5.0, 1.0, 5.0, 5.0],  # Class 2
+            [5.0, 5.0, 5.0, 1.0, 5.0],  # Class 3
+            [5.0, 5.0, 5.0, 5.0, 1.0],  # Class 4
+        ], dtype=torch.float32, device=device)
+        targets = targets.to(device)
+
+        cost_weights = cost_matrix[targets]
+
+        weighted_log_probs = cost_weights * log_probs 
+
+        # Take the log of the probabilities
+        loss = -torch.sum(one_hot_targets * weighted_log_probs, dim=-1).mean()
+    
+        # Compute the mean loss
         return loss

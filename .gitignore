@@ -167,3 +167,5 @@ convnext-checkpoints/
 weights/
 wandb/
 checkpoints/
+playground/
+datasets/
